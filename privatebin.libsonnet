@@ -15,7 +15,7 @@ local container = k.core.v1.container;
     + container.livenessProbe.httpGet.withPath('/')
     + container.livenessProbe.httpGet.withPort('http')
     + container.readinessProbe.httpGet.withPath('/')
-    + container.livenessProbe.httpGet.withPort('http')
+    + container.readinessProbe.httpGet.withPort('http')
   ,
 
   deployment: deployment.new('privatebin', 1, [$.container]),
