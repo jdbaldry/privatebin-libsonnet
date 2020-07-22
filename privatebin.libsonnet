@@ -10,8 +10,8 @@ local container = k.core.v1.container;
     + container.withPorts([
       k.core.v1.containerPort.newNamed(name='http', containerPort=8080),
     ])
-    + k.utils.resourcesRequests('50m', '100Mi')
-    + k.utils.resourcesLimits('150m', '300Mi')
+    + k.util.resourcesRequests('50m', '100Mi')
+    + k.util.resourcesLimits('150m', '300Mi')
     + container.livenessProbe.httpGet.withPath('/')
     + container.livenessProbe.httpGet.withPort('http')
     + container.readinessProbe.httpGet.withPath('/')
@@ -19,5 +19,5 @@ local container = k.core.v1.container;
   ,
 
   deployment: deployment.new('privatebin', 1, [$.container]),
-  service: k.utils.serviceFor($.deployment),
+  service: k.util.serviceFor($.deployment),
 }
