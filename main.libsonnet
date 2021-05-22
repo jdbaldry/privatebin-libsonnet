@@ -3,7 +3,7 @@ local k = import 'ksonnet-util/kausal.libsonnet';
 {
   new(
     name='privatebin',
-    image='privatebin/nginx-fpm-alpine:1.3.4',
+    image='privatebin/nginx-fpm-alpine:1.3.5',
   ):: {
 
     local container = k.core.v1.container,
