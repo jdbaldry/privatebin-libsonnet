@@ -1,12 +1,12 @@
 local k = import 'ksonnet-util/kausal.libsonnet';
-local deployment = k.apps.v1.deployment;
-local container = k.core.v1.container;
 
 {
+  name: 'privatebin',
   image:: 'privatebin/nginx-fpm-alpine:1.3.4',
 
+  local container = k.core.v1.container,
   container::
-    container.new('privatebin', $.image)
+    container.new('privatebin', self.image)
     + container.withPorts([
       k.core.v1.containerPort.newNamed(name='http', containerPort=8080),
     ])
@@ -18,6 +18,8 @@ local container = k.core.v1.container;
     + container.readinessProbe.httpGet.withPort('http')
   ,
 
-  deployment: deployment.new('privatebin', 1, [$.container]),
-  service: k.util.serviceFor($.deployment),
+  local deployment = k.apps.v1.deployment,
+  deployment: deployment.new(self.name, 1, [self.container]),
+
+  service: k.util.serviceFor(self.deployment),
 }
