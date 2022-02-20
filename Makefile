@@ -9,4 +9,6 @@ clean:
 	rm k.libsonnet
 	jb install
 
+update: chart clean
+
 .PHONY: chart clean
