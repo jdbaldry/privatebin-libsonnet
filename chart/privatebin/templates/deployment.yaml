@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "privatebin.fullname" . }}-privatebin
+  labels:
+  {{- include "privatebin.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.privatebin.replicas }}
+  selector:
+    matchLabels:
+      name: privatebin
+    {{- include "privatebin.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        name: privatebin
+      {{- include "privatebin.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - image: {{ .Values.privatebin.privatebin.image.repository }}:{{ .Values.privatebin.privatebin.image.tag
+          | default .Chart.AppVersion }}
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        name: privatebin
+        ports:
+        - containerPort: 8080
+          name: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+        resources: {{- toYaml .Values.privatebin.privatebin.resources | nindent 10 }}
