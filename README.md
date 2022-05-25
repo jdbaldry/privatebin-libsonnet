@@ -7,7 +7,7 @@ Jsonnet library for https://privatebin.info/
 Install it with jsonnet-bundler:
 
 ```console
-jb install https://github.com/Duologic/privatebin-libsonnet`
+jb install https://github.com/Duologic/privatebin-libsonnet
 ```
 
 Import into your jsonnet:
