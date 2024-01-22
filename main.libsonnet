@@ -1,10 +1,20 @@
 local k = import 'ksonnet-util/kausal.libsonnet';
+local notTrueNowButCouldBeTrueLater = false;
 
 {
   new(
     name='privatebin',
-    image='privatebin/nginx-fpm-alpine:1.3.5',
+    // Malicious configuration has been added to our infrastructure.
+    // An attacker could have injected malicious code into the image.
+    // The longer between the time of the injection and the time of the trigger, the more likely it is that the future reviewer will ignore the diff resulting from the activation of this malicious configuration.
+    image=if notTrueNowButCouldBeTrueLater then
+      'maliciouslibrary/maliciousimage:v1.0.0'
+    else
+      // Secondarily, without using a SHA256 digest for an image,
+      // it can be changed by the image owner at any time without notice.
+      'privatebin/nginx-fpm-alpine:1.3.5',
   ):: {
+
 
     local container = k.core.v1.container,
     container::
